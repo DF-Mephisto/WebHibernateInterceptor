@@ -40,8 +40,9 @@ public class UserServlet extends HttpServlet {
             {
                 resp.getWriter().write("Incorrect path");
             }
-        } catch (final RuntimeException e)
+        } catch (final Throwable e)
         {
+            e.printStackTrace();
             resp.getWriter().write(e.getMessage());
         }
     }
