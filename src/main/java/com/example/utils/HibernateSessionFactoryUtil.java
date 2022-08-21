@@ -2,10 +2,7 @@ package com.example.utils;
 
 import com.example.users.User;
 import com.p6spy.engine.spy.P6DataSource;
-import net.ttddyy.dsproxy.ExecutionInfo;
 import net.ttddyy.dsproxy.QueryInfo;
-import net.ttddyy.dsproxy.listener.QueryExecutionListener;
-import net.ttddyy.dsproxy.listener.logging.CommonsLogLevel;
 import net.ttddyy.dsproxy.proxy.ParameterSetOperation;
 import net.ttddyy.dsproxy.support.ProxyDataSource;
 import net.ttddyy.dsproxy.support.ProxyDataSourceBuilder;
@@ -16,7 +13,6 @@ import org.hibernate.cfg.Environment;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
-import java.util.List;
 import java.util.Properties;
 
 public class HibernateSessionFactoryUtil {

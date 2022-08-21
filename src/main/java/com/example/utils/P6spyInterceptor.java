@@ -13,7 +13,8 @@ public class P6spyInterceptor extends StdoutLogger {
                        final String prepared,
                        final String sql,
                        final String s) {
-        System.out.println(sql);
+        if (category.getName().equals("statement"))
+            System.out.println(sql);
     }
 
 }
