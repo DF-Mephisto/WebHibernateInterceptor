@@ -39,6 +39,14 @@ public class UserRepository {
         session.close();
     }
 
+    void putUser(final User user) {
+        final Session session = getSession();
+        final Transaction tx1 = session.beginTransaction();
+        session.update(user);
+        tx1.commit();
+        session.close();
+    }
+
     void deleteUserById(final long id) {
         final Session session = getSession();
         final Transaction tx1 = session.beginTransaction();

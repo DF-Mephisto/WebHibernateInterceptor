@@ -50,16 +50,38 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest req,
                           final HttpServletResponse resp) throws IOException {
-        final String jsonUser = req.getReader()
-                .lines()
-                .collect(Collectors
-                        .joining(System.lineSeparator()));
+        final String jsonUser = getRequestBody(req);
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
         try {
             userRepository.createUser(objectMapper.readValue(jsonUser, User.class));
+            resp.getWriter().write(jsonUser);
+        } catch (final RuntimeException e)
+        {
+            resp.getWriter().write(e.getMessage());
+        }
+    }
+
+    @Override
+    protected void doPut(final HttpServletRequest req,
+                         final HttpServletResponse resp) throws IOException {
+        final String pathInfo = req.getRequestURI();
+        final String[] pathParts = pathInfo.split("/");
+
+        resp.setCharacterEncoding("UTF-8");
+
+        if (!(pathParts.length == 3))
+        {
+            resp.getWriter().write("Incorrect path");
+            return;
+        }
+
+        final String jsonUser = getRequestBody(req);
+
+        try {
+            userRepository.putUser(objectMapper.readValue(jsonUser, User.class).withdId(Long.valueOf(pathParts[2])));
             resp.getWriter().write(jsonUser);
         } catch (final RuntimeException e)
         {
@@ -88,6 +110,14 @@ public class UserServlet extends HttpServlet {
         {
             resp.getWriter().write(e.getMessage());
         }
+    }
+
+    private String getRequestBody(final HttpServletRequest req) throws IOException
+    {
+        return req.getReader()
+                .lines()
+                .collect(Collectors
+                        .joining(System.lineSeparator()));
     }
 
 }

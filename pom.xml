@@ -52,6 +52,13 @@
             <artifactId>p6spy</artifactId>
             <version>3.9.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>4.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
