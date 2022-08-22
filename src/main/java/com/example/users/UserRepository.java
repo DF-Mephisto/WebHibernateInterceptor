@@ -17,44 +17,49 @@ public class UserRepository {
     }
 
     User loadUserById(final long id) {
-        final Session session = getSession();
-        final User user = session.get(User.class, id);
-        session.close();
-        return user;
+        try (final Session session = getSession())
+        {
+            final User user = session.get(User.class, id);
+            return user;
+        }
     }
 
     List<User> loadAllUsers() {
-        final Session session = getSession();
-        final List<User> users = session.createQuery(hqlLoadlAll, User.class)
-                .getResultList();
-        session.close();
-        return users;
+        try (final Session session = getSession())
+        {
+            final List<User> users = session.createQuery(hqlLoadlAll, User.class)
+                    .getResultList();
+            return users;
+        }
     }
 
     void createUser(final User user) {
-        final Session session = getSession();
-        final Transaction tx1 = session.beginTransaction();
-        session.persist(user);
-        tx1.commit();
-        session.close();
+        try (final Session session = getSession())
+        {
+            final Transaction tx1 = session.beginTransaction();
+            session.persist(user);
+            tx1.commit();
+        }
     }
 
     void putUser(final User user) {
-        final Session session = getSession();
-        final Transaction tx1 = session.beginTransaction();
-        session.update(user);
-        tx1.commit();
-        session.close();
+        try (final Session session = getSession())
+        {
+            final Transaction tx1 = session.beginTransaction();
+            session.update(user);
+            tx1.commit();
+        }
     }
 
     void deleteUserById(final long id) {
-        final Session session = getSession();
-        final Transaction tx1 = session.beginTransaction();
-        session.createQuery(hqlDeleteById)
-                .setParameter("id", id)
-                .executeUpdate();
-        tx1.commit();
-        session.close();
+        try (final Session session = getSession())
+        {
+            final Transaction tx1 = session.beginTransaction();
+            session.createQuery(hqlDeleteById)
+                    .setParameter("id", id)
+                    .executeUpdate();
+            tx1.commit();
+        }
     }
 
     private Session getSession()
